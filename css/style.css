@@ -1,6 +1,8 @@
-#kiosk {
-	display:none;
-}
+
 #lmap {
 	height: 180px;
+}
+#kiosk {
+	display:block;
+	height: 250px;
 }
