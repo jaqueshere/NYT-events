@@ -19,7 +19,14 @@ var getEvents = function(zip) {
 			latlon = {};
 			latlon.lat = Coordinates.responseJSON.resourceSets[0].resources[0].point.coordinates[0];
 			latlon.lon = Coordinates.responseJSON.resourceSets[0].resources[0].point.coordinates[1];
-			getNYT(latlon.lat, latlon.lon, 1000);
+			//create a map
+			var map = L.map('lmap').setView([latlon.lat, latlon.lon],13);
+			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
+			//get events
+			getNYT(latlon.lat, latlon.lon, 3000, map);
+			
 		},
 		error: function(e) {
 			alert(e.statusText);
@@ -28,7 +35,7 @@ var getEvents = function(zip) {
 
 }
 
-var getNYT = function(lat, lon, rad) { 
+var getNYT = function(lat, lon, rad, map) { 
 	var url = 'http://api.nytimes.com/svc/events/v2/listings.json?&ll='+lat+','+lon+'&radius='+rad+'&api-key=458060ce8f04618f086016b9c362dac0:13:6140968';
 	console.log(url);
 		results = $.getJSON(url)
@@ -43,7 +50,7 @@ var getNYT = function(lat, lon, rad) {
 						lat: array.geocode_latitude,
 						lon: array.geocode_longitude,
 					};
-					mapIt(latlon, array.venue_name, array.web_description);
+					mapIt(map, event_latlon, array.venue_name, array.web_description);
 					console.log(url);
 				});
 				
@@ -55,8 +62,10 @@ var getNYT = function(lat, lon, rad) {
 			return results;
 }
 
-var mapIt = function(latlon, venue, description) {
+var mapIt = function(map, latlon, venue, description) {
 	console.log(venue);
 	console.log(latlon);
 	console.log(description);
+	marker = new L.marker([latlon.lat, latlon.lon]).addTo(map)
+		.bindPopup(venue + ": " + description);
 }
