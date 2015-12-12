@@ -8,7 +8,7 @@
 	<script src="js/scripts.js"></script>
 </head>
 <body>
-	<div>
+	<div id="outer">
 		<form class="form-inline" id="form" role="form">
 	        <div class="form-group">
 	            <label class="sr-only" for="q">Zip code:</label>
@@ -16,7 +16,9 @@
 	            <input type="submit" value="Submit">
 	        </div>
 	    </form>
+	    <div id="lmap"></div>
 	    <div id="kiosk"></div>
 	</div>
 </body>
+<footer>This app uses Microsoft's geocoder API, The New York Times's events API, and the leaflet maps API.</footer>
 </html>
