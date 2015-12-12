@@ -9,14 +9,14 @@ $(document).ready(function() {
 		
 		latlon = {};
 		
-		latlon = getCoordinates(zipcode, latlon);
-		console.log(latlon);
+		getCoordinates(zipcode, latlon);
+		
 		coordinates = $("input:first").val().split(",");
 		/*latitude = coordinates[0];
 		longitude = coordinates[1];*/
 		radius = coordinates[2];
 		
-		//getEvents(latlon.lat, latlon.lon, radius);
+		
 
 	});
 });
@@ -31,24 +31,29 @@ var getCoordinates = function(zip, latlon) {
 			//console.log(Coordinates);
 			latlon.lat = Coordinates.responseJSON.resourceSets[0].resources[0].point.coordinates[0];
 			latlon.lon = Coordinates.responseJSON.resourceSets[0].resources[0].point.coordinates[1];
-			return latlon;
+			getEvents(latlon.lat, latlon.lon, 1000);
 		},
 		error: function(e) {
 			alert(e.statusText);
 		}
 	});
+	/*latlon.lat = -49;
+	latlon.lon = 130;*/
 }
 
 
 var getEvents = function(lat, lon, rad) { 
-	var url = 'http://api.nytimes.com/svc/events/v2/listings.json?ll{'+lat+'},{'+lon+'}&radius={'+rad+'}&api-key=458060ce8f04618f086016b9c362dac0:13:6140968';
-
+	var url = 'http://api.nytimes.com/svc/events/v2/listings.json?&ll='+lat+','+lon+'&radius='+rad+'&api-key=458060ce8f04618f086016b9c362dac0:13:6140968';
+	console.log(url);
 		results = $.getJSON(url)
 			.done(function()
 			{
 				//console.log(news.results);
 				$.each(results.responseJSON.results, function(index, array) { 
-					console.log(array.event_name);
+					var contentString = "<h1>" + array.event_name + "</h1><p>" + array.web_description + "</p><p>" + array.event_detail_url;
+					$("#kiosk").css("display", "block");
+					$("#kiosk").append(contentString);
+					console.log(url);
 				});
 				/*console.log(data[3]);
 				event_title = data[3];
@@ -57,9 +62,6 @@ var getEvents = function(lat, lon, rad) {
 				event_venue = data[6];
 				venue_url = data[7];*/
 
-				var contentString = "<h1>" + event_title + "</h1><p>" + event_description + "</p><p>" + event_venue + "</p><p>" + event_url + "</p><p>" + venue_url;
-
-				$("#kiosk").append(contentString);
 			})
 			.fail( function(jqXHR, textStatus, errorThrown) { 
 				console.log(errorThrown.toString());
