@@ -74,11 +74,11 @@ var getNYT = function(rad, map) {
 			{
 				$("#listhead").text("Following is a list of events in your area: ")
 				// Clear results of previous searches.
-				$("#kiosk").empty();
+				$("#kiosk .news").empty();
 
 				$.each(results.responseJSON.results, function(index, array) { 
-					var contentString = "<h1>" + array.event_name + "</h1><p>" + array.venue_name + ": "  + array.web_description + "</p><p>" + array.event_detail_url;
-					$("#kiosk").append(contentString);
+					var contentString = "<h1>" + array.event_name + "</h1><p>" + array.venue_name + ": "  + array.web_description + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p>";
+					$("#kiosk .news").append(contentString);
 					// Store the coordinates for each EVENT in separate variables.
 					var event_latlon = {
 						lat: array.geocode_latitude,

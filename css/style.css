@@ -1,8 +1,79 @@
+html {
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+}
 
-#lmap {
-	height: 180px;
+*, *:before, *:after {
+	box-sizing: inherit;
+	-webkit-font-smoothing: inherit;
 }
-#kiosk {
-	display:block;
-	height: 250px;
+
+body{
+	font-family: "Open Sans", "Helvetica Neue", sans-serif;
 }
+
+@media only screen and (max-width: 400px) {
+	#form {
+		min-height: 80px;
+		font-size: 1.5rem;
+		padding: 0.5rem;
+	}
+
+	.form-control {
+		font-size: 1rem;
+	}
+
+	#lmap {
+		height: 180px;
+	}
+	#kiosk {
+		display:block;
+		min-height: 250px;
+	}
+
+	#listhead {
+		font-size: 1.5rem;
+		padding: 0.5rem;
+	}	
+}
+
+@media only screen and (min-width: 600px) {
+	#form {
+		width: 100%;
+		font-size: 1.5rem;
+		padding: 0.5rem;
+		
+	}
+
+	.form-control {
+		font-size: 1rem;
+	}
+
+	#content {
+	/*	position: absolute;*/
+	}
+
+	#lmap {
+		height:500px;
+		width:60%;
+		position: relative;
+		display: inline-block;
+	}
+	#kiosk {
+		display: inline-block;
+		width: 35%;
+		font-size: 1.5rem;
+		padding: 0.5rem;
+		vertical-align: top;
+		height:500px;
+		overflow: scroll;
+	}
+
+	#listhead {
+		
+		
+		
+	}
+
+}
+	

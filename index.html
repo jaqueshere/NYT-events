@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>NYC Doings</title>
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,500,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/style.css">
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
@@ -13,16 +14,17 @@
 	<div id="outer">
 		<form class="form-inline" id="form" role="form">
 	        <div class="form-group">
-	            <label class="sr-only" for="q">Enter zip code (optionally, add a radius in meters separated by a comma): </label>
+	            <label class="sr-only" for="q">Enter zip code (optionally, add a radius in meters separated by a comma): <br/></label>
 	            <input class="form-control" id="q" placeholder="10001" type="text"/>
 	            <input type="submit" value="Submit">
 	        </div>
 	    </form>
-	    <div></div>
-	    <div id="lmap"></div>
-	    <div><p id="listhead">Enter a zip code above and hit Submit.</p></div>
-	    <div id="kiosk"></div>
+	    <div id="content">
+	    	<div id="lmap"></div>
+		    
+		    <div id="kiosk"><p id="listhead">Enter a zip code above and hit <em>Submit</em> to see events in your area.</p><div class="news"></div></div>
+		</div>
 	</div>
 </body>
-<footer>This app uses Bing Locations, The New York Times's events API, and the leafletjs maps API.</footer>
+<footer>This app uses Bing Locations, The New York Times's events API, and the leafletjs maps API. Site design copyright Jaques Gillis.</footer>
 </html>
