@@ -12,7 +12,7 @@ body{
 	font-family: "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-@media only screen and (max-width: 400px) {
+@media all and (max-width: 400px) {
 	#form {
 		min-height: 80px;
 		font-size: 1.5rem;
