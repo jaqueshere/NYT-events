@@ -4,14 +4,14 @@ $(document).ready(function() {
 
 	$("#form").submit(function(e) {
 		e.preventDefault();
-		
+			
 		var arguments = [];
 		arguments = $('input').val().split(",");
 
-		var zipcode = parseInt(arguments[0]);	
-		var radius = parseInt(arguments[1]);
+		var location = arguments[0];	
+		var radius = arguments[1];
 
-		getEvents(zipcode, map, radius);
+		getEvents(location, map, radius);
 	});
 });
 
@@ -37,11 +37,23 @@ var newyorkMap = {
 	}
 }
 
-var getEvents = function(zip, map, radius) {
+var getEvents = function(location, map, radius) {
 	//default to showing events in Manhattan
-	zip = zip || 10001;
+	location = location || 10001;
 	radius = radius || 3000;
-	var url = 'http://dev.virtualearth.net/REST/v1/Locations?postalCode=' + zip + '&key=Ascxy1k6vRhXRU8R5rOchA5dZvvGww07N2vEsg4KiMjYWkV_ni4-EtjLW2xNlzXf';
+	var url = "";
+
+	//Test whether the first argument is a zip code or a street address
+	var zip_pattern = /^\d{5}/;
+	if (zip_pattern.test(location)) {
+		url = 'http://dev.virtualearth.net/REST/v1/Locations?postalCode=' + location + '&key=Ascxy1k6vRhXRU8R5rOchA5dZvvGww07N2vEsg4KiMjYWkV_ni4-EtjLW2xNlzXf';
+		
+	}
+	else {
+		url = 'http://dev.virtualearth.net/REST/v1/Locations?locality="New York City"&addressLine=' + location +'&key=Ascxy1k6vRhXRU8R5rOchA5dZvvGww07N2vEsg4KiMjYWkV_ni4-EtjLW2xNlzXf';
+		
+	}
+
 	var Coordinates = $.ajax({
 		url: url,
 		dataType: "jsonp",
