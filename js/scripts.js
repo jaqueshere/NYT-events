@@ -7,11 +7,35 @@ $(document).ready(function() {
 			
 		var arguments = [];
 		arguments = $('input').val().split(",");
-
+		console.log($('#date').val());
 		var location = arguments[0];	
 		var radius = arguments[1];
 
-		getEvents(location, map, radius);
+		/*Use the date object to construct a date range for query
+		 *second Date() object will be used to represent date at end of range */
+
+		var today = new Date();
+		var last_day = new Date();
+		/*use date_range to represent range. Using substring() to 
+		 *get only the date part, leaving out times.
+		 */
+		var date_range = today.toISOString().substring(0,10) + ":";
+
+		/*val()==0 corresponds to today, 1 to this week, 3 to this month */
+		if ($('#date').val() == 0) {
+			last_day.setDate(today.getDate()+1);
+			date_range += last_day.toISOString().substring(0,10);
+		}
+		else if ($('#date').val() == 1) {
+			last_day.setDate(today.getDate()+7);
+			date_range += last_day.toISOString().substring(0,10);
+		}
+		else {
+			last_day.setDate(today.getDate()+30);
+			date_range += last_day.toISOString().substring(0,10);
+		}
+
+		getEvents(location, map, radius, date_range);
 	});
 });
 
@@ -37,7 +61,7 @@ var newyorkMap = {
 	}
 }
 
-var getEvents = function(location, map, radius) {
+var getEvents = function(location, map, radius, date_range) {
 	//default to showing events in Manhattan
 	location = location || 10001;
 	radius = radius || 3000;
@@ -68,7 +92,7 @@ var getEvents = function(location, map, radius) {
 			map.panTo(newyorkMap.latlon);
 
 			// get events using new coordinates
-			getNYT(radius);
+			getNYT(radius, date_range);
 			
 		},
 		error: function(e) {
@@ -78,8 +102,8 @@ var getEvents = function(location, map, radius) {
 
 }
 
-var getNYT = function(rad, map) { 
-	var url = 'http://api.nytimes.com/svc/events/v2/listings.json?&ll='+newyorkMap.latlon.lat+','+newyorkMap.latlon.lon+'&radius='+rad+'&api-key=458060ce8f04618f086016b9c362dac0:13:6140968';
+var getNYT = function(rad, date_range, map) { 
+	var url = 'http://api.nytimes.com/svc/events/v2/listings.json?&ll='+newyorkMap.latlon.lat+','+newyorkMap.latlon.lon+'&radius='+rad+'&date_range='+date_range+'&api-key=458060ce8f04618f086016b9c362dac0:13:6140968';
 	console.log(url);
 		results = $.getJSON(url)
 			.done(function()
