@@ -115,7 +115,8 @@ var getNYT = function(rad, date_range, map) {
 				$.each(results.responseJSON.results, function(index, array) { 
 					var name = array.event_name || "[NYT did not supply a name]";
 					var venue = array.venue_name || "[NYT did not supply a venue!]";
-					var contentString = "<h1>" + name + "</h1><p>" + venue + ": "  + array.web_description + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p>";
+					var times = array.date_time_description || "No information on times."
+					var contentString = "<h1>" + name + "</h1><p>" + venue + ": "  + array.web_description + "</p><p>When you can see it: " + times + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p>";
 					$("#kiosk .news").append(contentString);
 					// Store the coordinates for each EVENT in separate variables.
 					var event_latlon = {
