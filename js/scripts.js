@@ -12,9 +12,12 @@ $(document).ready(function() {
 		var radius = arguments[1];
 
 		/*Use the date object to construct a date range for query
-		 *second Date() object will be used to represent date at end of range */
+		 *second Date() object will be used to represent date at end of range 
+		 *Use offset of -5 to get NY time
+		 */
 
-		var today = new Date();
+		var offset = -5;
+		var today = new Date( new Date().getTime() + offset * 3600 * 1000);
 		var last_day = new Date();
 		/*use date_range to represent range. Using substring() to 
 		 *get only the date part, leaving out times.
@@ -34,7 +37,7 @@ $(document).ready(function() {
 			last_day.setDate(today.getDate()+30);
 			date_range += last_day.toISOString().substring(0,10);
 		}
-
+		console.log(date_range);
 		getEvents(location, map, radius, date_range);
 	});
 });
