@@ -113,14 +113,16 @@ var getNYT = function(rad, date_range, map) {
 				$("#kiosk .news").empty();
 
 				$.each(results.responseJSON.results, function(index, array) { 
-					var contentString = "<h1>" + array.event_name + "</h1><p>" + array.venue_name + ": "  + array.web_description + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p>";
+					var name = array.event_name || "[NYT did not supply a name]";
+					var venue = array.venue_name || "[NYT did not supply a venue!]";
+					var contentString = "<h1>" + name + "</h1><p>" + venue + ": "  + array.web_description + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p>";
 					$("#kiosk .news").append(contentString);
 					// Store the coordinates for each EVENT in separate variables.
 					var event_latlon = {
 						lat: array.geocode_latitude,
 						lon: array.geocode_longitude,
 					};
-					newyorkMap.drawMarkers(event_latlon, array.venue_name, array.web_description);
+					newyorkMap.drawMarkers(event_latlon, venue, array.web_description);
 					console.log(url);
 				});
 				
