@@ -59,9 +59,9 @@ var newyorkMap = {
 		}).addTo(map);
 		return map;
 	},
-	drawMarkers: function(latlon, venue, description, index) {
+	drawMarkers: function(latlon, name, venue, description, index) {
 		marker = new L.marker([latlon.lat, latlon.lon]).addTo(map)
-		.bindPopup(venue + ": " + description);
+		.bindPopup(venue + ": " + name + description);
 		L.layerGroup().addLayer(marker);
 
 		/* Keep tabs on the markers so you can 
@@ -129,22 +129,25 @@ var getNYT = function(rad, date_range, map) {
 
 				$.each(results.responseJSON.results, function(index, array) { 
 					result_num += 1;
-					console.log(result_num);
 					var name = array.event_name || "[NYT did not supply a name]";
 					var venue = array.venue_name || "[NYT did not supply a venue!]";
 					var times = array.date_time_description || "No information on times."
 					var contentString = "<div id = 'item" + result_num + "'><h1>" + name + "</h1><p>" + venue + ": "  + array.web_description + "</p><p>When you can see it: " + times + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p></div>";
 					$("#kiosk .news").append(contentString);
+
+					//store an identifier for div in news column
 					var link = "#item" + result_num;
 					$(link).click(function(e) {
-						newyorkMap.markerBox[result_num].openPopup();
+						var text = $(this).attr('id');
+						text = text.slice(4);
+						newyorkMap.markerBox[text].openPopup();
 					});
 					// Store the coordinates for each EVENT in separate variables.
 					var event_latlon = {
 						lat: array.geocode_latitude,
 						lon: array.geocode_longitude,
 					};
-					newyorkMap.drawMarkers(event_latlon, venue, array.web_description, result_num);
+					newyorkMap.drawMarkers(event_latlon, name, venue, array.web_description, result_num);
 					console.log(url);
 				});
 			})
