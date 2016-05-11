@@ -132,7 +132,7 @@ var getNYT = function(rad, date_range, map) {
 					var name = array.event_name || "[NYT did not supply a name]";
 					var venue = array.venue_name || "[NYT did not supply a venue!]";
 					var times = array.date_time_description || "No information on times."
-					var contentString = "<div id = 'item" + result_num + "'><h1>" + name + "</h1><p>" + venue + ": "  + array.web_description + "</p><p>When you can see it: " + times + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p></div>";
+					var contentString = "<div id = 'item" + result_num + "'><h1>" + name + "</h1><h2>" + venue + ": </h2><p>"  + array.web_description + "</p><p>When you can see it: " + times + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p></div>";
 					
 					/*Repsonses without a venue seem always to be old (bad) listings, so don't use them. */
 					if (array.venue_name) {
