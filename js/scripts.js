@@ -84,11 +84,11 @@ var getEvents = function(location, map, radius, date_range) {
 	//Test whether the first argument is a zip code or a street address
 	var zip_pattern = /^\d{5}/;
 	if (zip_pattern.test(location)) {
-		url = 'http://dev.virtualearth.net/REST/v1/Locations?postalCode=' + location + '&key=Ascxy1k6vRhXRU8R5rOchA5dZvvGww07N2vEsg4KiMjYWkV_ni4-EtjLW2xNlzXf';
+		url = 'http://dev.virtualearth.net/REST/v1/Locations?postalCode=' + location + ***;
 		
 	}
 	else {
-		url = 'http://dev.virtualearth.net/REST/v1/Locations?locality="New York City"&addressLine=' + location +'&key=Ascxy1k6vRhXRU8R5rOchA5dZvvGww07N2vEsg4KiMjYWkV_ni4-EtjLW2xNlzXf';
+		url = 'http://dev.virtualearth.net/REST/v1/Locations?locality="New York City"&addressLine=' + location + ***;
 		
 	}
 
@@ -117,7 +117,7 @@ var getEvents = function(location, map, radius, date_range) {
 }
 
 var getNYT = function(rad, date_range, map) { 
-	var url = 'http://api.nytimes.com/svc/events/v2/listings.json?&ll='+newyorkMap.latlon.lat+','+newyorkMap.latlon.lon+'&radius='+rad+'&date_range='+date_range+'&api-key=458060ce8f04618f086016b9c362dac0:13:6140968';
+	var url = 'http://api.nytimes.com/svc/events/v2/listings.json?&ll='+newyorkMap.latlon.lat+','+newyorkMap.latlon.lon+'&radius='+rad+'&date_range='+date_range+***;
 	console.log(url);
 		results = $.getJSON(url)
 			.done(function()
