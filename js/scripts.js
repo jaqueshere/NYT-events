@@ -60,6 +60,7 @@ var newyorkMap = {
 		return map;
 	},
 	drawMarkers: function(latlon, name, venue, description, index) {
+
 		marker = new L.marker([latlon.lat, latlon.lon]).addTo(map)
 		.bindPopup(venue + ": " + name + description);
 		L.layerGroup().addLayer(marker);
@@ -116,7 +117,7 @@ var getEvents = function(location, map, radius, date_range) {
 
 var getNYC = function(zip, date_range, map) {
 
-	var url = 'https://api.cityofnewyork.us/calendar/v1/search.htm?app_id=ceadf58a&app_key=35d9aec5f7617963372a321f5f0e48bc&zip=' + zip;
+	var url = 'https://api.cityofnewyork.us/calendar/v1/search.htm?callback=?&app_id=ceadf58a&app_key=35d9aec5f7617963372a321f5f0e48bc&zip=' + zip;
 	console.log(url);
 	results = $.getJSON(url)
 		.done(function(){
@@ -126,15 +127,15 @@ var getNYC = function(zip, date_range, map) {
 			var result_num = 0;
 
 
-				$.each(results.responseJSON.results, function(index, array) { 
+				$.each(results.responseJSON.items, function(index, array) { 
 					result_num += 1;
-					var name = items.name || "[NYT did not supply a name]";
-					var venue = items.location || "[NYT did not supply a venue!]";
-					var times = items.timePart || "No information on times."
-					var contentString = "<div id = 'item" + result_num + "'><h1>" + name + "</h1><h2>" + venue + ": </h2><p>"  + array.web_description + "</p><p>When you can see it: " + times + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p></div>";
+					var name = array.name || "[NYC did not supply a name]";
+					var venue = array.location || "[NYC did not supply a venue!]";
+					var times = array.timePart || "No information on times."
+					var contentString = "<div id = 'item" + result_num + "'><h1>" + name + "</h1><h2>" + venue + ": </h2><p>"  + array.desc + "</p><p>When you can see it: " + times + "</p><p><a href='" + array.permalink + "'>" + array.permalink + "</p></div>";
 					
 					/*Repsonses without a venue seem always to be old (bad) listings, so don't use them. */
-					if (array.venue_name) {
+					if (array.name) {
 						$("#kiosk .news").append(contentString);
 
 						//store an identifier for div in news column
@@ -146,10 +147,11 @@ var getNYC = function(zip, date_range, map) {
 						});
 						// Store the coordinates for each EVENT in separate variables.
 						var event_latlon = {
-							lat: geometry.lat,
-							lon: geometry.lng,
+							lat: array.geometry[0].lat,
+							lon: array.geometry[0].lng,
 						};
-						newyorkMap.drawMarkers(event_latlon, name, venue, array.web_description, result_num);
+						console.log(event_latlon);
+						newyorkMap.drawMarkers(event_latlon, name, venue, array.desc, result_num);
 						console.log(url);	
 					}
 					
