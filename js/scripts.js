@@ -106,7 +106,7 @@ var getEvents = function(location, map, radius, date_range) {
 			map.panTo(newyorkMap.latlon);
 
 			// get events using new coordinates
-			getNYT(radius, date_range);
+			getNYC(location, date_range);
 			
 		},
 		error: function(e) {
@@ -114,6 +114,53 @@ var getEvents = function(location, map, radius, date_range) {
 		}
 	});
 
+}
+
+var getNYC = function(zip, date_range, map) {
+
+	var url = 'https://api.cityofnewyork.us/calendar/v1/search.htm?app_id=ceadf58a&app_key=35d9aec5f7617963372a321f5f0e48bc&zip=' + zip;
+	console.log(url);
+	results = $.getJSON(url)
+		.done(function(){
+			$("#listhead").text("Following is a list of events in your area: ")
+			//Clear results of previous searches.
+			$("#kiosk .news").empty();
+			var result_num = 0;
+
+
+				$.each(results.responseJSON.results, function(index, array) { 
+					result_num += 1;
+					var name = items.name || "[NYT did not supply a name]";
+					var venue = items.location || "[NYT did not supply a venue!]";
+					var times = items.timePart || "No information on times."
+					var contentString = "<div id = 'item" + result_num + "'><h1>" + name + "</h1><h2>" + venue + ": </h2><p>"  + array.web_description + "</p><p>When you can see it: " + times + "</p><p><a href='" + array.event_detail_url + "'>" + array.event_detail_url + "</p></div>";
+					
+					/*Repsonses without a venue seem always to be old (bad) listings, so don't use them. */
+					if (array.venue_name) {
+						$("#kiosk .news").append(contentString);
+
+						//store an identifier for div in news column
+						var link = "#item" + result_num;
+						$(link).click(function(e) {
+							var text = $(this).attr('id');
+							text = text.slice(4);
+							newyorkMap.markerBox[text].openPopup();
+						});
+						// Store the coordinates for each EVENT in separate variables.
+						var event_latlon = {
+							lat: geometry.lat,
+							lon: geometry.lng,
+						};
+						newyorkMap.drawMarkers(event_latlon, name, venue, array.web_description, result_num);
+						console.log(url);	
+					}
+					
+				});
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) { 
+				console.log(errorThrown.toString());
+			} );
+	return results;
 }
 
 var getNYT = function(rad, date_range, map) { 
