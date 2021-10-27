@@ -85,10 +85,10 @@ var getEvents = function(location, map, radius, date_range) {
 	//Test whether the first argument is a zip code or a street address
 	var zip_pattern = /^\d{5}/;
 	if (zip_pattern.test(location)) {
-		url = 'http://dev.virtualearth.net/REST/v1/Locations?postalCode=' + location + '&key=Ascxy1k6vRhXRU8R5rOchA5dZvvGww07N2vEsg4KiMjYWkV_ni4-EtjLW2xNlzXf';
+		url = 'https://dev.virtualearth.net/REST/v1/Locations?postalCode=' + location + '&key=Ascxy1k6vRhXRU8R5rOchA5dZvvGww07N2vEsg4KiMjYWkV_ni4-EtjLW2xNlzXf';
 	}
 	else {
-		url = 'http://dev.virtualearth.net/REST/v1/Locations?locality="New York City"&addressLine=' + location + '&key=Ascxy1k6vRhXRU8R5rOchA5dZvvGww07N2vEsg4KiMjYWkV_ni4-EtjLW2xNlzXf';		
+		url = 'https://dev.virtualearth.net/REST/v1/Locations?locality="New York City"&addressLine=' + location + '&key=Ascxy1k6vRhXRU8R5rOchA5dZvvGww07N2vEsg4KiMjYWkV_ni4-EtjLW2xNlzXf';		
 	}
 
 	var Coordinates = $.ajax({
